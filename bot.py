@@ -124,8 +124,8 @@ async def list_games(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     msg = "📋 *Tracked Games:*\n\n"
 
-    for game in games:
-        msg += f"*{game.id}.* {game.name} — ₹{game.current_price}\n"
+    for i, game in enumerate(games, start=1):
+        msg += f"{i}. {game.name} — ₹{game.current_price}\n"
 
     await update.message.reply_text(msg, parse_mode="Markdown")
 
@@ -137,26 +137,27 @@ async def list_games(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def remove_game(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
-        await update.message.reply_text("Usage: /remove <id>")
+        await update.message.reply_text("Usage: /remove <number>")
         return
 
     try:
-        game_id = int(context.args[0])
+        index = int(context.args[0]) - 1
     except:
-        await update.message.reply_text("Invalid ID.")
+        await update.message.reply_text("Invalid number.")
         return
 
     db = SessionLocal()
 
-    game = db.query(TrackedGame).filter_by(
-        id=game_id,
+    games = db.query(TrackedGame).filter_by(
         chat_id=update.message.chat_id
-    ).first()
+    ).all()
 
-    if not game:
-        await update.message.reply_text("Game not found.")
+    if index < 0 or index >= len(games):
+        await update.message.reply_text("Invalid number.")
         db.close()
         return
+
+    game = games[index]
 
     db.delete(game)
     db.commit()
