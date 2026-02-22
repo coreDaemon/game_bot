@@ -80,23 +80,23 @@ steam-price-bot/
 ## ⚙️ Installation (Local Setup)
 
 ### 1️⃣ Clone the repository
-
+```
 git clone https://github.com/yourusername/steam-price-bot.git  
 cd game_bot  
-
+```
 ---
 
 ### 2️⃣ Create virtual environment
-
+```
 python -m venv venv  
 source venv/bin/activate  
-
+```
 ---
 
 ### 3️⃣ Install dependencies
-
+```
 pip install -r requirements.txt  
-
+```
 ---
 
 ### 4️⃣ Create `.env` file
@@ -108,9 +108,9 @@ BOT_TOKEN=your_telegram_bot_token_here
 ---
 
 ### 5️⃣ Run the bot
-
+```
 python bot.py  
-
+```
 ---
 
 ## 📸 Example Usage
